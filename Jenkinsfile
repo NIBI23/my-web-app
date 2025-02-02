@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('checkout') {
             steps {
                 echo 'Checking out the code'
                 git 'https://github.com/NIBI23/my-web-app.git'
