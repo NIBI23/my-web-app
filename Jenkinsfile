@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('checkout') {
+        stage('Checkout') {
             steps {
                 echo 'Checking out the code'
                 git branch: 'main', url: 'https://github.com/NIBI23/my-web-app.git'
@@ -10,21 +10,24 @@ pipeline {
         }
 
         stage('Build') {
-        echo 'Building the project'
-        sh '''
-            sudo apt-get update
-            sudo apt-get install -y python3-pip
-            python3 -m pip install --upgrade pip
-            sudo pip3 install -r requirements.txt --break-system-packages
-       '''
-       }
-
+            steps {
+                echo 'Building the project'
+                sh '''
+                    sudo apt-get update
+                    sudo apt-get install -y python3-pip
+                    python3 -m pip install --upgrade pip
+                    sudo pip3 install -r requirements.txt --break-system-packages
+                '''
+            }
+        }
 
         stage('Test') {
             steps {
                 echo 'Running tests'
-                sh 'python3 app.py & sleep 5'  // Wait for the app to start
-                sh 'curl http://localhost:5000'
+                // Wait for the app to start
+                sh 'python3 app.py & sleep 5'
+                // Ensure the app is running by checking if the port is accessible
+                sh 'curl --max-time 10 http://localhost:5000 || exit 1'
             }
         }
 
@@ -32,7 +35,7 @@ pipeline {
             steps {
                 echo 'Deploying the Application'
 
-                // Stop and remove any running container with the same name
+                // Stop and remove any existing container
                 sh 'docker stop my-web-app || true'
                 sh 'docker rm my-web-app || true'
 
