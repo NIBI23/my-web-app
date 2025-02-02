@@ -1,6 +1,12 @@
 pipline {
     agnent any
     stages {
+        stage ('Checkout') {
+            steps {
+                echo 'Checking out the code'
+                https://github.com/NIBI23/my-web-app.git
+            }
+        }
         stage ('Build') {
             steps {
                 echo 'Building the project'
