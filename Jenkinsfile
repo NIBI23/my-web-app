@@ -5,7 +5,7 @@ pipeline {
         stage('checkout') {
             steps {
                 echo 'Checking out the code'
-                git 'https://github.com/NIBI23/my-web-app.git'
+                git branch: 'main', url: 'https://github.com/NIBI23/my-web-app.git'
             }
         }
 
@@ -39,4 +39,3 @@ pipeline {
         }
     }
 }
-
