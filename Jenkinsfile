@@ -10,11 +10,15 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                echo 'Building the project'
-                sh 'python3 -m pip install -r requirements.txt'
-            }
-        }
+        echo 'Building the project'
+        sh '''
+            sudo apt-get update
+            sudo apt-get install -y python3-pip
+            python3 -m pip install --upgrade pip
+            sudo pip3 install -r requirements.txt --break-system-packages
+       '''
+       }
+
 
         stage('Test') {
             steps {
