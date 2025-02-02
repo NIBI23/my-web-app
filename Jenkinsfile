@@ -29,7 +29,7 @@ pipeline {
 
                 // Build and run a new container
                 sh 'docker build -t my-web-app .'
-                sh 'docker run -d -p 5000:5000 --name my-web-app my-web-app'
+                sh 'docker run -d -p 5001:5000 --name my-web-app my-web-app'
             }
         }
     }
